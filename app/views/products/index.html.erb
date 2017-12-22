@@ -1,0 +1,44 @@
+<h1>Listing products</h1>
+
+<%= form_tag products_path, method: 'get' do %>
+  <% if !filter_category.empty? %>
+    <% filter_category.each do |category| %>
+      <%= check_box_tag "product[category_ids][]", category.id %>
+      <%= category.name %>
+    <% end %>
+    <%= submit_tag 'Search' %>
+  <% else %>
+    No category to filter
+  <% end %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Description</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @products.each do |product| %>
+      <tr>
+        <td><%= product.name %></td>
+        <td><%= sgd(product.price) %></td>
+        <td><%= product.description %></td>
+        <td><%= link_to 'Show', product %></td>
+        <td><%= link_to 'Edit', edit_product_path(product) %></td>
+        <td><%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Product', new_product_path %>
